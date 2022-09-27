@@ -4,12 +4,25 @@ const Schema = mongoose.Schema
 
 const flightSchema = new Schema({
   airline: String,
-  airport: String,
+  airport: {
+    type: String,
+    default: 'DEN'
+  },
   flightNo: Number,
-  departs: Date,
-}, {
-  timestamps: true
+  departs: {
+    type: Date,
+    default: futureDate()
+  }
 })
+
+function futureDate() {
+  const today = new Date()
+  console.log('Today', today);
+  today.setFullYear(today.getFullYear() + 1)
+  console.log(today);
+  return today
+}
+futureDate()
 
 const Flight = mongoose.model('Flight', flightSchema)
 
