@@ -2,10 +2,6 @@ import mongoose from "mongoose";
 
 const Schema = mongoose.Schema
 
-const mealSchema = new Schema ({
-  name: String,
-})
-
 const ticketSchema = new Schema ({
   seat: {
     type: String,
@@ -39,7 +35,7 @@ const flightSchema = new Schema({
       return new Date().setFullYear(new Date().getFullYear() + 1)
     },
   },
-  tickets: [ticketSchema]
+  tickets: [ticketSchema],
 }, {
   timestamps: true
 })
