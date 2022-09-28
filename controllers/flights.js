@@ -26,8 +26,8 @@ function index(req, res) {
   Flight.find({})
   .then(flights => {
     res.render('flights/index', {
+      title: 'All Flights',
       flights: flights,
-      title: 'All Flights'
     })
   })
   .catch(err => {
@@ -63,7 +63,7 @@ function deleteFlight(req, res) {
 
 function edit(req, res) {
   Flight.findById(req.params.id)
-  .this(flight => {
+  .then(flight => {
     res.render('flights/edit', {
       flight: flight,
       title: 'Edit Flight'
@@ -75,6 +75,25 @@ function edit(req, res) {
   })
 }
 
+function createTicket(req, res) {
+  Flight.findById(req.params.id)
+  .then(flight => {
+    flight.tickets.push(req.body)
+    flight.save()
+    .then(() => {
+      res.redirect(`/flights/${flight._id}`)
+    })
+  })
+  .catch(err => {
+    console.log(err)
+    res.redirect('/')
+  })
+}
+
+function deleteTicket(req, rest) {
+
+}
+
 export {
   newFlight as new,
   create,
@@ -82,4 +101,6 @@ export {
   show,
   deleteFlight as delete,
   edit,
+  createTicket,
+  deleteTicket,
 }

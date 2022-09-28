@@ -5,7 +5,8 @@ const Schema = mongoose.Schema
 const ticketSchema = new Schema ({
   seat: {
     type: String,
-    match: /[A-F][1-9]\d?/,
+    required: true,
+    match: /[A-F][1-9]\d?/
   },
   price: { 
     type: Number, 
@@ -20,7 +21,8 @@ const flightSchema = new Schema({
   },
   airport: {
     type: String,
-    enum: ["DEN", "DRW", "AUS", "LEX", "SAN"]
+    enum: ["DEN", "DRW", "AUS", "LEX", "SAN"],
+    default: 'DEN',
   },
   flightNo: {
     type: Number,
@@ -29,19 +31,14 @@ const flightSchema = new Schema({
   },
   departs: {
     type: Date,
-    default: futureDate()
+    default: function(){
+      return new Date().setFullYear(new Date().getFullYear() + 1)
+    },
   },
   tickets: [ticketSchema]
+}, {
+  timestamps: true
 })
-
-function futureDate() {
-  const today = new Date()
-  console.log('Today', today);
-  today.setFullYear(today.getFullYear() + 1)
-  console.log(today);
-  return today
-}
-futureDate()
 
 const Flight = mongoose.model('Flight', flightSchema)
 
