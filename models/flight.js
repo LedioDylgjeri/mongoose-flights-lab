@@ -2,6 +2,10 @@ import mongoose from "mongoose";
 
 const Schema = mongoose.Schema
 
+const mealSchema = new Schema ({
+  name: String,
+})
+
 const ticketSchema = new Schema ({
   seat: {
     type: String,
